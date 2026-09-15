@@ -1,0 +1,21 @@
+
+借阅状态三态判断
+<el-tag v-if="scope.row.borrStatus == 1" type="warning" size="small">借阅中</el-tag>
+<el-tag v-else-if="scope.row.borrStatus == 0" type="success" size="small">已归还</el-tag>
+<el-tag v-else-if="scope.row.borrStatus == -1" type="danger" size="small">超时</el-tag>
+
+获取借阅列表`getList`
+request.get('/api/physical/archives/record/search', {
+  params: { page: page, size: size }
+}).then(res => {
+  this.tableData = res.data.data.records;   // 渲染表格
+  this.pageNum = res.data.data.total;       // 总条数
+  ...
+})
+
+删除记录`delet`
+request.post("/api/physical/archives/record/delete", data).then(res => {
+  if (res.data.status == 0) { /* 提示删除成功 */ }
+  else { /* 提示删除失败 */ }
+});
+this.getList(this.currentPage, this.pageSize);  // 删除后重新加载
